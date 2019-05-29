@@ -51,11 +51,19 @@ data "aws_eip" "nlb_eip3" {
 # Network Load Balancer (NLB)
 #
 
+resource "aws_security_group" "nlb_sg" {
+  name_prefix = "${var.name}-nlb-sg-"
+  description = "Security group attached to nlb"
+  vpc_id      = "${var.nlb_vpc_id}"
+}
+
 resource "aws_lb" "main" {
   name               = "nlb-${var.name}-${var.environment}"
   load_balancer_type = "network"
 
   enable_cross_zone_load_balancing = "${var.enable_cross_zone_load_balancing}"
+
+  security_groups = ["${aws_security_group.nlb_sg.id}"]
 
   subnet_mapping {
     subnet_id     = "${var.nlb_subnet_ids[0]}"
