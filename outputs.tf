@@ -32,8 +32,3 @@ output "nlb_zone_id" {
   description = "The canonical hosted zone ID of the load balancer."
   value       = "${aws_lb.main.zone_id}"
 }
-
-output "nlb_security_group_id" {
-  description = "The id of the security group attached to the nlb"
-  value       = "${aws_security_group.nlb_sg.id}"
-}
